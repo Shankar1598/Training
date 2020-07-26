@@ -1,0 +1,90 @@
+Day 3:
+
+1. The N Queen is the problem of placing N chess queens on an N×N chessboard so that no two queens attack each other
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Day 2:
+1. A Maze is given as N*N binary matrix of blocks where source block is the upper left most block i.e., maze[0][0] and destination block is lower rightmost block i.e., maze[N-1][N-1]. A rat starts from source and has to reach the destination. The rat can move only in two directions: forward and down.
+In the maze matrix, 0 means the block is a dead end and 1 means the block can be used in the path from source to destination. Find the path which the Rat should follow to reach the destination.
+maze = [
+  [1, 0, 0, 1],
+  [1, 1, 1, 1],
+  [0, 0, 1, 0],
+  [0, 1, 1, 1]
+]
+
+2. An expression will be given which can contain open and close parentheses and optionally some characters, No other operator will be there in string. We need to remove minimum number of parentheses to make the input string valid. If more than one valid output are possible removing same number of parentheses then print all such output.
+Example:
+Input  : str = “()())()” -
+Output :
+()()()
+(())()
+
+Input  : str = (v)())()
+Output :
+(v)()()
+(v())()
+
+3. The N Queen is the problem of placing N chess queens on an N×N chessboard so that no two queens attack each other.
+board = [
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0]
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Day 1:
+1. Rahul, a student pursuing Compiler Design and Architecture decides to build a compiler that performs arithmetic operations. But the one he builds turns out to perform 3 million operations per second for smaller expressions with 2 to 4 operands. But slows down below 1 million operations per second for more complex expression where the number of operands exceeds 7 which is unacceptable for him. How can you help Rahul optimize his compiler to efficiently process expressions?
+Tasks:
+- Optimize the isEmpty method
+- bring support to multi-digit numbers for the compiler
+- get int values of variables from memory
+- postfix to Infix conversion
+- infix to prefix conversion
+
+2. A logistics company uses planes to carry and transport high priority goods. The company uses a Boeing 737-800 which has a takeoff weight of 81 tons which includes the weight of the plane itself which is about 41 tons and the fuel it needs for the flight which is 18 tons. The company wants to make sure they only prioritize high-value deliveries through the air to maximize the profit.
+Tasks:
+- Find the list of selected items that should be transported
+
+Input:
+wt - weight of the items measured in tons
+val - value of the items measured in x*1000 USD
+
+items = [
+  {'id': 'a', 'val': 5, 'wt': 3},
+  {'id': 'b', 'val': 10, 'wt': 9},
+  {'id': 'c', 'val': 15, 'wt': 4},
+  {'id': 'd', 'val': 2, 'wt': 6},
+  {'id': 'e', 'val': 7, 'wt': 4}
+]
+W = 21
