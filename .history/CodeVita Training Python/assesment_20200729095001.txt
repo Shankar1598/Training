@@ -1,0 +1,428 @@
+Day 3:
+
+1.
+Compute the nearest larger number by interchanging its digits updated.Given 2 numbers a and b find the smallest number greater than b by interchanging the digits of a and if not possible print -1.
+
+Input Format
+2 numbers a and b, separated by space.
+Output Format
+A single number greater than b.
+If not possible, print -1
+
+Constraints
+1 <= a,b <= 10000000
+
+Output:
+Enter the 1st number :459
+Enter the 2nd number :500
+549
+
+Algorithm
+Step 1:- Start.
+Step 2:- From itertools import permutation function.
+Step 3:- Take user inputs.
+Step 4:- Initialize a flag variable to 0[zero].
+Step 5:- Convert number1 to String and then to a list.
+Step 6:- Sort the list by using the sorted function.
+Step 7:- Initialize a perm variable that stores the permutations of the list.
+Step 8:- Iterate through the perm variable by converting it to the list.
+Step 9:- Initialize an empty string.
+Step 10:- Concatenate all the iterators to a string variable.
+Step 11:- Typecast the string variable to an integer to check the next greatest number.
+Step 12:- Continue the process until if condition gets the True value.
+Step 13:- As the if condition gets the true value, chang the flag variable to 1 and break the loop.
+Step 14:- Check the flag whether we got the greatest value or not.
+Step 15:- Print the string variable if flag is 1 else print -1.
+Step 16:- End.
+
+Solution:
+#import itertools to get permutation function
+from itertools import permutations
+#take inputs
+num1 = int(input('Enter the 1st number :'))
+num2 = int(input('Enter the 2nd number :'))
+#initialize a flag variable
+flag = 0
+#convert num1 to string list
+num1 = list(str(num1))
+#sort the list
+num1 = sorted(num1)
+#find all permutations
+perm = permutations(num1) 
+#iterate through all permutations 
+for i in list(perm): 
+    #initialize an string
+    string = " "
+    #iterate through an string
+    for j in i:
+        string+=j
+    #typecast string to integer
+    #check for next greater value
+    if int(string) > num2:
+        #if True Change the flag variable 
+        #break the loop
+        flag = 1
+        break
+#check if the number is found or not
+if flag == 1:
+    print(string)
+else:
+    print(-1)
+
+
+2.
+Write the code for the following input value using 
+Knapsack algorithm
+
+Knapsack input:
+
+items = [
+  {'val': 150, 'wt': 20},
+  {'val': 100, 'wt': 20},
+  {'val': 120, 'wt': 30}
+]
+W = 50
+Output:
+270
+
+Algorithm: Has been discussed in class
+
+Solution:
+
+def knapSack(W, items, n):
+
+  if (n == 0 or W==0):
+    return 0
+  
+  itemValue = items[n-1]['val']
+  itemWt = items[n-1]['wt']
+
+  if (itemWt > W):
+    return knapSack(W, items, n-1)
+  else:
+    # include nth item
+    included = (itemValue + knapSack(W-itemWt, items, n-1))
+    # exclude nth item
+    excluded = knapSack(W, items, n-1)
+
+    result = max(included, excluded)
+    return result
+
+Day 4:
+
+1.
+A knight is placed on the first block of an empty board and, moving according to the rules of chess, must visit each square exactly once.
+
+Output:
+59,14,63,32,1,16,19,34
+62,31,60,15,56,33,2,17
+13,58,55,64,49,18,35,20
+30,61,42,57,54,51,40,3
+43,12,53,50,41,48,21,36
+26,29,44,47,52,39,4,7
+11,46,27,24,9,6,37,22
+28,25,10,45,38,23,8,5
+
+Algorithm:
+If all squares are visited 
+    print the solution
+Else
+   a) Add one of the next moves to solution vector and recursively 
+   check if this move leads to a solution. (A Knight can make maximum 
+   eight moves. We choose one of the 8 moves in this step).
+   b) If the move chosen in the above step doesn't lead to a solution
+   then remove this move from the solution vector and try other 
+   alternative moves.
+   c) If none of the alternatives work then return false (Returning false 
+   will remove the previously added item in recursion and if false is 
+   returned by the initial call of recursion then "no solution exists" )
+
+Solution:
+# Chessboard Size 
+n = 8
+
+def isSafe(x,y,board): 
+	''' 
+		A utility function to check if i,j are valid indexes 
+		for N*N chessboard 
+	'''
+	if(x >= 0 and y >= 0 and x < n and y < n and board[x][y] == -1): 
+		return True
+	return False
+
+def printSolution(n, board): 
+	''' 
+		A utility function to print Chessboard matrix 
+	'''
+	for i in range(n): 
+		for j in range(n): 
+			print(board[i][j],end =' ') 
+		print() 
+
+
+def solveKT(n): 
+	''' 
+		This function solves the Knight Tour problem using 
+		Backtracking. This function mainly uses solveKTUtil() 
+		to solve the problem. It returns false if no complete 
+		tour is possible, otherwise return true and prints the 
+		tour. 
+		Please note that there may be more than one solutions, 
+		this function prints one of the feasible solutions. 
+	'''
+	
+	# Initialization of Board matrix 
+	board = [[-1 for i in range(n)]for i in range(n)] 
+	
+	# move_x and move_y define next move of Knight. 
+	# move_x is for next value of x coordinate 
+	# move_y is for next value of y coordinate 
+	move_x = [2, 1, -1, -2, -2, -1, 1, 2] 
+	move_y = [1, 2, 2, 1, -1, -2, -2, -1] 
+	
+	# Since the Knight is initially at the first block 
+	board[0][0] = 0
+	
+	# Step counter for knight's position 
+	pos = 1
+	
+	# Checking if solution exists or not 
+	if(not solveKTUtil(n, board, 0, 0, move_x, move_y, pos)): 
+		print("Solution does not exist") 
+	else: 
+		printSolution(n, board) 
+
+def solveKTUtil(n,board,curr_x,curr_y,move_x,move_y,pos): 
+	''' 
+		A recursive utility function to solve Knight Tour 
+		problem 
+	'''
+	
+	if(pos == n**2): 
+		return True
+	
+	# Try all next moves from the current coordinate x, y 
+	for i in range(8): 
+		new_x = curr_x + move_x[i] 
+		new_y = curr_y + move_y[i] 
+		if(isSafe(new_x,new_y,board)): 
+			board[new_x][new_y] = pos 
+			if(solveKTUtil(n,board,new_x,new_y,move_x,move_y,pos+1)): 
+				return True
+			
+			# Backtracking 
+			board[new_x][new_y] = -1
+	return False
+
+solveKT(n)
+
+2.
+
+Given a valid sentence without any spaces between the words and a dictionary of valid English words, find all possible ways to break the sentence in individual dictionary words.
+
+dictionary: { i, like, sam, sung, samsung, mobile, ice, cream, icecream, man, go, mango}
+
+Input: "ilikesamsungmobile"
+Output: i like sam sung mobile
+        i like samsung mobile
+
+Input: "ilikeicecreamandmango"
+Output: i like ice cream and man go
+        i like ice cream and mango
+        i like icecream and man go
+        i like icecream and mango
+
+Algorithm:
+We start scanning the sentence from left. As we find a valid word, we need to check whether rest of the sentence can make valid words or not. Because in some situations the first found word from left side can leave a remaining portion which is not further separable. So in that case we should come back and leave the current found word and keep on searching for the next word. And this process is recursive because to find out whether the right portion is separable or not, we need the same logic. So we will use recursion and backtracking to solve this problem. To keep track of the found words we will use a stack. Whenever the right portion of the string does not make valid words, we pop the top string from stack and continue finding.
+
+Solution:
+#include <iostream> 
+using namespace std; 
+
+int dictionaryContains(string &word) 
+{ 
+	string dictionary[] = {"mobile","samsung","sam","sung", 
+							"man","mango", "icecream","and", 
+							"go","i","love","ice","cream"}; 
+	int n = sizeof(dictionary)/sizeof(dictionary[0]); 
+	for (int i = 0; i < n; i++) 
+		if (dictionary[i].compare(word) == 0) 
+			return true; 
+	return false; 
+} 
+
+void wordBreakUtil(string str, int size, string result); 
+
+// Prints all possible word breaks of given string 
+void wordBreak(string str) 
+{ 
+	// last argument is prefix 
+	wordBreakUtil(str, str.size(), ""); 
+} 
+
+// result store the current prefix with spaces 
+// between words 
+void wordBreakUtil(string str, int n, string result) 
+{ 
+	//Process all prefixes one by one 
+	for (int i=1; i<=n; i++) 
+	{ 
+		//extract substring from 0 to i in prefix 
+		string prefix = str.substr(0, i); 
+
+		// if dictionary conatins this prefix, then 
+		// we check for remaining string. Otherwise 
+		// we ignore this prefix (there is no else for 
+		// this if) and try next 
+		if (dictionaryContains(prefix)) 
+		{ 
+			// if no more elements are there, print it 
+			if (i == n) 
+			{ 
+				// add this element to previous prefix 
+				result += prefix; 
+				cout << result << endl; //print result 
+				return; 
+			} 
+			wordBreakUtil(str.substr(i, n-i), n-i, 
+								result + prefix + " "); 
+		} 
+	}	 //end for 
+}//end function 
+
+int main() 
+{ 
+	cout << "First Test:\n"; 
+	wordBreak("iloveicecreamandmango"); 
+
+	cout << "\nSecond Test:\n"; 
+	wordBreak("ilovesamsungmobile"); 
+	return 0; 
+} 
+
+Day 5:
+1. Place N chess queens on an N×N chessboard so that no two queens attack each other.
+
+Input:
+N = 5
+
+Output:
+1 0 0 0 0
+0 0 0 1 0
+0 1 0 0 0
+0 0 0 0 1
+0 0 1 0 0
+
+Algorithm: Has been discussed in class
+
+Solution:
+def printSolution(board): 
+    for i in range(N): 
+        for j in range(N): 
+            print (board[i][j], end = " ") 
+        print()
+
+def isSafe(board, row, col):
+  safe = True
+  for lc in range(col):
+    if board[row][lc] == 1:
+      safe = False
+
+  # Check upper diagonal on left side 
+  diagonal1 = zip(range(row, -1, -1), range(col, -1, -1))
+  for i, j in diagonal1:
+    # print(list(diagonal1))
+    if board[i][j] == 1: 
+      return False
+
+  # Check lower diagonal on left side 
+  diagonal2 = zip(range(row, N, 1), range(col, -1, -1))
+  for i, j in diagonal2:
+    # print(list(diagonal2))
+    if board[i][j] == 1: 
+      return False
+
+  # print("safe: " + str(safe))
+  return safe
+
+def solveNQ(board, col):
+  global N
+  
+  if col >= N:
+    return True
+
+  for row in range(N):
+    if isSafe(board, row, col):
+      board[row][col] = 1
+
+      if solveNQ(board, col + 1):
+        return True
+      board[row][col] = 0
+      
+  return False
+
+
+2. Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function search(char pat[], char txt[]) that prints all occurrences of pat[] in txt[]. You may assume that n > m.
+  Example:
+  Input:  
+    txt = "THIS IS A TEST TEXT"
+    pat = "TEST"
+  Output:
+    Pattern found at index 10
+  
+  Input:
+    txt = "THE RAT ATE THE CAT"
+    pat = "THE"
+  Output: 
+    Pattern found at index 0
+    Pattern found at index 12
+
+Algorithm: Has been discussed in class
+
+Solution:
+d = 256
+
+def search(pat, txt, q):
+  patLen = len(pat)
+  txtLen = len(txt)
+
+  patHash = 0
+  txtHash = 0
+
+  h = 1 # pow(d, patHash-1)
+
+  for i in range(patLen-1):
+    h = (h*d)%q
+
+  for i in range(patLen):
+    patHash = (d * patHash + ord(pat[i]))%q
+    txtHash = (d * txtHash + ord(txt[i]))%q
+
+
+  for i in range(txtLen - patLen + 1):
+    if patHash == txtHash:
+      matched = True
+      for j in range(patLen):
+        if pat[j] != txt[i+j]:
+          matched = False
+
+      if matched:
+        print("Match found at: " + str(i))
+
+    if i < txtLen - patLen:
+      hashOfChar1 = ord(txt[i])*h
+      txtHash = (d * (txtHash - hashOfChar1) + ord(txt[i+patLen]))%q
+
+      if txtHash < 0:
+        txtHash += q
+
+
+3. Given strings str1 and str2. The task is to find that if str1 is substring in shuffled form of str2 or not. Print “YES” if str1 is substring in shuffled form of str2 else print “NO”.
+  Input: 
+    str1 = "goodbye"
+    str2 = "hellobyegoodworld"
+  Output: YES
+  Input: 
+    str1 = "badbye"
+    str2 = "hellobyegoodworld"
+  Output: NO
